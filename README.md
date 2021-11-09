@@ -19,7 +19,7 @@ Los usuarios (as) podrán:
     - Ver histórico de reservas.
     - Cancelar/Modificar su reserva (solo si está pendiente)
 
-#Requerimientos mínimos
+# Requerimientos mínimos
 
 
 # Funcionalidades
