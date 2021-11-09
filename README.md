@@ -3,7 +3,7 @@ Grupo5-TP2-CellPhoneRep
 
 # Descripción
 Los usuarios (as) podrán:
-  - Se podrá autenticar.
+  - Autenticar.
   - Administrar  datos de la cuenta:
     - Domicilio.
     - Número celular.
