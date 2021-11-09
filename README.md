@@ -29,5 +29,3 @@ Los usuarios (as) podrán:
       - Alta: Registro de la reparación. 
       - Baja: Se cancela la reparación.
       - Modificación: Se actualizan atributos de la solicitud registrada. 
-
-
