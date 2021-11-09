@@ -12,7 +12,7 @@ Los usuarios (as) podrán:
   - Seguimiento de la reparación por estado:
     - Pendiente: Estado inicial al registrar una reparación, se genera de forma automática al registrar la misma. 
     - Asignada: Se le asigna día de reserva para entregar el celular. 
-        - Endpoint para cambiar estado de reparación. (opcional)
+        - Endpoint para cambiar estado de reparación y asignar fecha. (opcional)
     - Realizada: El técnico finaliza la reparación. (opcional)
     - Finalizada: Entrega del celular al cliente y pago realizado. (opcional)
     - Cancelada: Se cancela la reparación por parte del cliente y/o de la empresa. (opcional)
