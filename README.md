@@ -22,12 +22,12 @@ Los usuarios (as) podrán:
 
 # Funcionalidades
     - ABM de Usuarios:
-    - Alta: (Conectar con API Google)
-    - Baja.
-    - Modificación.
-  - ABM de Reservas: (opcional)
-    - Alta: Registro de la reparación. 
-    - Baja: Se cancela la reparación.
-    - Modificación: Se actualizan atributos de la solicitud registrada. 
+      - Alta: (Conectar con API Google)
+      - Baja.
+      - Modificación.
+    - ABM de Reservas: (opcional)
+      - Alta: Registro de la reparación. 
+      - Baja: Se cancela la reparación.
+      - Modificación: Se actualizan atributos de la solicitud registrada. 
 
 
