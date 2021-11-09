@@ -15,9 +15,9 @@ Los usuarios (as) podrán:
     - Realizada: El técnico finaliza la reparación. 
     - Finalizada: Entrega del celular al cliente y pago realizado.
     - Cancelada: Se cancela la reparación por parte del cliente y/o de la empresa.
-    - Administrar la reserva:
-      - Ver histórico de reservas.
-      - Cancelar/Modificar su reserva (solo si está pendiente)
+  - Administrar la reserva:
+    - Ver histórico de reservas.
+    - Cancelar/Modificar su reserva (solo si está pendiente)
 
 #Requerimientos mínimos
 
