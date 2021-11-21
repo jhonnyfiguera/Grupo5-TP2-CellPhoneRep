@@ -4,8 +4,8 @@ Grupo5-TP2-CellPhoneRep
 # Descripción
 Los usuarios (as) podrán:
   - Autenticar.
-  - Administrar  datos de la cuenta:
-    - Domicilio.
+  - Administrar datos de la cuenta:
+    - Nombre Completo.
     - Número celular.
     - Desactivar cuenta.
   - Solicitar una reserva para reparar su celular.
@@ -29,3 +29,33 @@ Los usuarios (as) podrán:
       - Alta: Registro de la reparación. 
       - Baja: Se cancela la reparación.
       - Modificación: Se actualizan atributos de la solicitud registrada. 
+
+# Entidades
+Usuario:
+  - Id: se autogenera
+  - Nombre Completo (fullName): cadena
+  - Teléfono (phone): cadena
+  - Email (email): cadena
+  - Password (password): bcrypt
+  - Cuenta Activa (activeAccount): control de cuenta activa o inactiva, booleano
+  - Lista De Reservas (??)--------------
+Reserva:
+  - Id: se autogenera
+  - Usuario
+  - Celular: lista para seleccionar, colección
+      - Id
+      - Nombre
+      - Costo: número
+  - Reparación: lista para de selección múltiple, colección
+      - Id
+      - Nombre
+      - Costo: número
+  - Sucursal: lista para seleccionar, colección
+      - Id
+      - Nombre
+      - Domicilio 
+      - Teléfono
+  - Fecha Entrega: cadena
+  - Comentario Adicional: opcional carga por el cliente, cadena
+  - Estado: cadena
+  - Costo Estimado de Reparación (opcional): número
