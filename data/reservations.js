@@ -5,14 +5,65 @@ const RESERVATIONSDB = 'reservations';
 const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-async function getAllReservations(){
+/**
+ * Busqueda de reserva por id
+ * @param {id} id
+ * @returns reserva
+ */
+async function getReservationId(id){
+    const connectiondb = await connection.getConnection();
+    const reservation = await connectiondb
+                        .db(DATABASE)
+                        .collection(RESERVATIONSDB)
+                        .findOne({ _id: new ObjectId(id) });   
+    return reservation;
+}
+
+/**
+ * Busqueda de todas las reservas de un usuario
+ * @param {_id} userId 
+ * @returns reservas de un usuario
+ */
+ async function getAllReservationsUser(userId){
     const connectiondb = await connection.getConnection();
     const reservations = await connectiondb
                         .db(DATABASE)
                         .collection(RESERVATIONSDB)
-                        .find()
+                        .find({ 'user._id': userId })
                         .toArray();    
     return reservations;
 }
 
-module.exports = {getAllReservations};
+/**
+ * Alta de reserva
+ * @param {reservation} reservation
+ * @returns resultado de Alta de reserva
+ */
+ async function addReservation(reservation) {
+    const connectiondb = await connection.getConnection();
+    const result = connectiondb
+                .db(DATABASE)
+                .collection(RESERVATIONSDB)
+                .insertOne(reservation);
+    return result;
+  }
+  
+/**
+ * Cancelar reserva
+ * @param {reservation} reservation
+ * @returns resultado de cancelar reserva
+ */
+ async function cancelReservation(reservation) {
+  const connectiondb = await connection.getConnection();
+  const result = connectiondb
+              .db(DATABASE)
+              .collection(RESERVATIONSDB)
+              .updateOne({_id: reservation._id}, {
+                $set: {
+                  state: reservation.state
+                }
+              });
+  return result;
+}
+
+module.exports = {getReservationId, getAllReservationsUser, addReservation, cancelReservation};

@@ -7,7 +7,7 @@ const auth = require("../middleware/authentication");
  * Todos los usuarios
  */
 router.get("/", auth, async (req, res) => {
-  console.log("Ok, todos los usuarios.");
+  console.log("Todos los usuarios.");
   res.json(await controller.getAllUsers());
 });
 
@@ -16,7 +16,7 @@ router.get("/", auth, async (req, res) => {
  */
 router.get("/:id", auth, async (req, res) => {
   try {
-    console.log("Ok, usuario por id.");
+    console.log("Usuario por id.");
     res.json(await controller.getUserId(req.params.id));
   } catch (error) {
     res.status(404).send(error.message);
@@ -28,7 +28,7 @@ router.get("/:id", auth, async (req, res) => {
  */
 router.post("/add", async (req, res) => {
   try {
-    console.log("Ok, alta de usuario.");
+    console.log("Alta de usuario.");
     const result = await controller.addUser(req.body);
     res.send(result);
   } catch (error) {
@@ -41,7 +41,7 @@ router.post("/add", async (req, res) => {
  */
 router.post("/login", async (req, res) => {
   try {
-    console.log("Ok, login de usuario.");
+    console.log("Login de usuario.");
     const user = await controller.findByCredential(
       req.body.email,
       req.body.password
@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
  */
  router.put("/update", async (req, res) => {
   try {
-    console.log("Ok, update de usuario.");
+    console.log("Update de usuario.");
     const result = await controller.updateUser(req.body);
     res.send(result);
   } catch (error) {
