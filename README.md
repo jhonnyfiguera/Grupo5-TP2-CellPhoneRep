@@ -28,14 +28,14 @@ Los usuarios (as) podrán:
       - Modificación: Se actualizan atributos de la solicitud registrada. 
 
 # Entidades
-Usuario:
+>Usuario:
   - Id: se autogenera
   - Nombre Completo (fullName): cadena
   - Teléfono (phone): cadena
   - Email (email): cadena
   - Password (password): bcrypt
   - Cuenta Activa (activeAccount): control de cuenta activa o inactiva, booleano
-Reserva:
+ >Reserva:
   - Id: se autogenera
   - Usuario (user)
   - Celular (phone): lista de selección simple, colección en mongodb
