@@ -11,10 +11,7 @@ Los usuarios (as) podrán:
   - Solicitar una reserva para reparar su celular.
   - Seguimiento de la reparación por estado:
     - Pendiente: Estado inicial al registrar una reparación, se genera de forma automática al registrar la misma. 
-    - Agendada: Se le asigna día de reserva para entregar el celular. 
-        - Endpoint para cambiar estado de reparación y asignar fecha. (opcional)
-    - Realizada: El técnico finaliza la reparación. (opcional)
-    - Finalizada: Entrega del celular al cliente y pago realizado. (opcional)
+    - Realizada: Se realiza la reparación y el cliente retira su equipo reparado. (opcional)
     - Cancelada: Se cancela la reparación por parte del cliente y/o de la empresa. (opcional)
   - Administrar la reserva: (opcional)
     - Ver histórico de reservas.
@@ -38,24 +35,23 @@ Usuario:
   - Email (email): cadena
   - Password (password): bcrypt
   - Cuenta Activa (activeAccount): control de cuenta activa o inactiva, booleano
-  - Lista De Reservas (??)--------------
 Reserva:
   - Id: se autogenera
-  - Usuario
-  - Celular: lista para seleccionar, colección
+  - Usuario (user)
+  - Celular (phone): lista de selección simple, colección en mongodb
       - Id
-      - Nombre
-      - Costo: número
-  - Reparación: lista para de selección múltiple, colección
+      - Nombre (name)
+      - Costo (cost): número
+  - Reparaciones (itemsRepairs): lista de selección múltiple, colección en mongodb
       - Id
-      - Nombre
-      - Costo: número
-  - Sucursal: lista para seleccionar, colección
+      - Nombre (name)
+      - Costo (cost): número
+  - Sucursal (office): lista de selección simple, colección en mongodb
       - Id
       - Nombre
       - Domicilio 
       - Teléfono
-  - Fecha Entrega: cadena
-  - Comentario Adicional: opcional carga por el cliente, cadena
-  - Estado: cadena
-  - Costo Estimado de Reparación (opcional): número
+  - Fecha Entrega (date): cadena
+  - Comentario Adicional (additionalComment): opcional carga por el cliente, cadena
+  - Estado (state): cadena
+  - Costo Estimado de Reparación (estimatedRepairCost)(opcional): número

@@ -28,7 +28,7 @@ async function getUserId(id) {
   const user = await connectiondb
     .db(DATABASE)
     .collection(USERSDB)
-    .findOne({ _id: new ObjectId(id) });
+    .findOne({ _id: new ObjectId(id)});
   return user;
 }
 
@@ -49,14 +49,10 @@ async function getUserByEmail(mail) {
 /**
  * Alta de usuario
  * @param {user} user
- * @returns Alta de usuario
+ * @returns resultado de alta de usuario
  */
 async function addUser(user) {
   const connectiondb = await connection.getConnection();
-  user.password = await bcrypt.hash(user.password, 8);
-  user.activeAccount = true;
-  !user.phone ? (user.phone = "") : user.phone;
-  !user.fullName ? (user.fullName = "") : user.fullName;
   const result = connectiondb.db(DATABASE).collection(USERSDB).insertOne(user);
   return result;
 }
@@ -64,7 +60,7 @@ async function addUser(user) {
 /**
  * Actualización de datos de usuario
  * @param {user} user 
- * @returns update de usuario
+ * @returns resultado de update de usuario
  */
 
 async function updateUser(user) { 

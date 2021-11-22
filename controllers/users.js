@@ -12,7 +12,7 @@ async function getAllUsers() {
 }
 
 /**
- *
+ * Llama a la función getUserId de data/users
  * @param {id} id
  * @returns user
  */
@@ -55,6 +55,12 @@ async function addUser(user) {
   if (!(await userValidate(user))) {
     throw new Error("Algunos de los datos son incorrectos.");
   }
+  
+  user.password = await bcrypt.hash(user.password, 8);
+  user.activeAccount = true;
+  !user.phone ? (user.phone = "") : user.phone;
+  !user.fullName ? (user.fullName = "") : user.fullName;
+
   return users.addUser(user);
 }
 
@@ -89,12 +95,12 @@ async function generateAuthToken(user) {
 }
 
 /**
- * Llama al getUserId de data y al updateUser de data
+ * Llama al getUserId de controller y al updateUser de data/users
  * @param {user} user 
  * @returns user
  */
 async function updateUser(user) {
-  const userBd = await users.getUserId(user._id);
+  const userBd = await getUserId(user._id);
   if (!user.fullName && !user.phone) {
     throw new Error("No se pudieron actualizar los datos - vacios");
   }
