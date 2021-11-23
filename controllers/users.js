@@ -1,14 +1,44 @@
-require("dotenv").config();
-const users = require("../data/users");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+require('dotenv').config();
+const users = require('../data/users');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 /**
- * Llama a la función getAllUsers de data/user
- * @returns all Users
+ * Valida la estructura de los datos recibidos para crear el usuario
+ * @param {user} user
+ * @returns boolean
  */
-async function getAllUsers() {
-  return users.getAllUsers();
+async function validateUser(user) {
+	let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{3})+$/;
+	return re.test(user.email) && user.password.length > 2;
+}
+
+/**
+ * Llama a la función addUser y getUserByEmail de data/users
+ * @param {User} user
+ * @returns user
+ */
+async function addUser(user) {
+	const userBd = await users.getUserByEmail(user.email);
+
+	if (userBd) {
+		throw new Error('El email se encuentra registrado, por favor, inicia sección.');
+	}
+
+	if (!user.email || !user.password) {
+		throw new Error('Es requerido email y password.');
+	}
+
+	if (!(await validateUser(user))) {
+		throw new Error('Algunos de los datos son incorrectos.');
+	}
+
+	user.password = await bcrypt.hash(user.password, 8);
+	user.activeAccount = true;
+	!user.phone ? (user.phone = '') : user.phone;
+	!user.fullName ? (user.fullName = '') : user.fullName;
+
+	return users.addUser(user);
 }
 
 /**
@@ -16,52 +46,84 @@ async function getAllUsers() {
  * @param {id} id
  * @returns user
  */
-async function getUserId(id) {
-  const user = await users.getUserId(id);
-  if (!user) {
-    throw new Error("Usuario no encontrado.");
-  }
-  return user;
+async function getUserById(id) {
+	const user = await users.getUserById(id);
+	if (!user) {
+		throw new Error('Usuario no encontrado.');
+	}
+	return user;
 }
 
 /**
- * Valida la estructura del los datos recibidos para crear el usuario
+ * Llama al getUserById de controller y al updateUser de data/users
  * @param {user} user
- * @returns boolean
- */
-async function userValidate(user) {
-  let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{3})+$/;
-  return (re.test(user.email) && user.password.length > 2);
-}
-
-/**
- * Llama a la función addUser de data/users
- * @param {User} user
  * @returns user
  */
-async function addUser(user) {
-  const userBd = await users.getUserByEmail(user.email);
+ async function updateUser(user) {
+	const userBd = await getUserById(user._id);
+	if (!user.fullName && !user.phone) {
+		throw new Error('No se pudieron actualizar los datos - vacios');
+	}
 
-  if (userBd) {
-    throw new Error(
-      "El email se encuentra registrado, por favor, inicia sección."
-    );
-  }
+	if (user.fullName && user.fullName.length < 4) {
+		throw new Error('No se pudieron actualizar los datos - name incorrecto');
+	}
 
-  if (!user.email || !user.password) {
-    throw new Error("Es requerido email y password.");
-  }
+	if (user.fullName && userBd.fullName !== user.fullName) {
+		userBd.fullName = user.fullName;
+	}
 
-  if (!(await userValidate(user))) {
-    throw new Error("Algunos de los datos son incorrectos.");
-  }
+	if (user.phone && user.phone.length < 8) {
+		throw new Error('No se pudieron actualizar los datos - tel incorrecto');
+	}
+
+	if (user.phone && userBd.phone !== user.phone) {
+		userBd.phone = user.phone;
+	}
+
+	return users.updateUser(userBd);
+}
+
+/**
+ * Actualización de cuenta de usuario
+ * @param {id} id 
+ * @param {cuenta} account 
+ * @returns Resultado de activar cuenta de usuario
+ */
+async function activateUserAccount(id, account) {
+  const userBd = await getUserById(id);
+
+  if (account === undefined || account ===false) {
+		throw new Error('No se procesar la solicitud.');
+	}
   
-  user.password = await bcrypt.hash(user.password, 8);
-  user.activeAccount = true;
-  !user.phone ? (user.phone = "") : user.phone;
-  !user.fullName ? (user.fullName = "") : user.fullName;
+  if (userBd.activeAccount === true && account === true) {
+		throw new Error('La cuenta ya se encuentra activa.');
+	}
+  
+  userBd.activeAccount = account;
+	return users.updateAccountUser(userBd);
+}
 
-  return users.addUser(user);
+/**
+ * Actualización de cuenta de usuario
+ * @param {id} id 
+ * @param {cuenta} account 
+ * @returns Resultado de desactivar cuenta de usuario
+ */
+ async function deactivateUserAccount(id, account) {
+  const userBd = await getUserById(id);
+
+  if (account === undefined || account === true) {
+		throw new Error('No se procesar la solicitud.');
+	}
+
+  if (userBd.activeAccount === false && account === false) {
+		throw new Error('La cuenta ya se encuentra inactiva.');
+	}
+
+  userBd.activeAccount = account;
+	return users.updateAccountUser(userBd);
 }
 
 /**
@@ -70,65 +132,46 @@ async function addUser(user) {
  * @param {string} pass
  * @returns user
  */
-async function findByCredential(mail, pass) {
-  const user = await users.getUserByEmail(mail);
-  if (!user) {
-    throw new Error("Credenciales no validas.");
-  }
-  const isMatch = await bcrypt.compare(pass, user.password);
-  if (!isMatch) {
-    throw new Error("Credenciales no validas");
-  }
-  return user;
+ async function findByCredential(mail, pass) {
+	const user = await users.getUserByEmail(mail);
+	if (!user) {
+		throw new Error('Email invalido o cuenta se encuentra inactiva.');
+		//throw new Error('Credenciales no validas.');
+	}
+	const isMatch = await bcrypt.compare(pass, user.password);
+	if (!isMatch) {
+		throw new Error('Contraseña incorrecta.');
+		//throw new Error('Credenciales no validas');
+	}
+	return user;
 }
 
 /**
  * Generación de Token
  * @param {user} user
- * @returns token
+ * @returns Token activo por 2hrs
  */
 async function generateAuthToken(user) {
-  const token = jwt.sign({ _id: user._id }, process.env.SECRET, {
-    expiresIn: "2h",
-  });
-  return token;
+	const token = jwt.sign({ _id: user._id }, process.env.SECRET, {expiresIn: '2h'});
+	return token;
 }
 
 /**
- * Llama al getUserId de controller y al updateUser de data/users
- * @param {user} user 
- * @returns user
+ * ------------------------------------------
+ * Llama a la función getAllUsers de data/user
+ * @returns All Users
  */
-async function updateUser(user) {
-  const userBd = await getUserId(user._id);
-  if (!user.fullName && !user.phone) {
-    throw new Error("No se pudieron actualizar los datos - vacios");
-  }
-
-  if (user.fullName && user.fullName.length < 4) {
-    throw new Error("No se pudieron actualizar los datos - name incorrecto");
-  }
-
-  if (user.fullName && userBd.fullName !== user.fullName) {
-    userBd.fullName = user.fullName;
-  }
-
-  if (user.phone && user.phone.length < 8) {
-    throw new Error("No se pudieron actualizar los datos - tel incorrecto");
-  }
-
-  if (user.phone && userBd.phone !== user.phone) {
-    userBd.phone = user.phone;
-  }
-
-  return users.updateUser(userBd);
+async function getAllUsers() {
+	return users.getAllUsers();
 }
 
 module.exports = {
-  getAllUsers,
-  getUserId,
-  addUser,
-  findByCredential,
-  generateAuthToken,
-  updateUser,
+	addUser,
+	getUserById,
+	updateUser,
+  activateUserAccount,
+  deactivateUserAccount,
+	findByCredential,
+	generateAuthToken,
+	getAllUsers,
 };
