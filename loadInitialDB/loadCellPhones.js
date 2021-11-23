@@ -1,6 +1,6 @@
 db = db.getSiblingDB('grupo5-cellphone');
-db.users.drop();
-db.users.insertMany([
+db.cellPhones.drop();
+db.cellPhones.insertMany([
 	{
 		name: 'Samsung',
 		cost: 3000,
