@@ -1,6 +1,6 @@
 db = db.getSiblingDB('grupo5-cellphone');
-db.users.drop();
-db.users.insertMany([
+db.offices.drop();
+db.offices.insertMany([
 	{
 		name: 'Sucursal Palermo',
 		address: 'Palermo',

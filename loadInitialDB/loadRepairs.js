@@ -1,6 +1,6 @@
 db = db.getSiblingDB('grupo5-cellphone');
-db.users.drop();
-db.users.insertMany([
+db.repairs.drop();
+db.repairs.insertMany([
 	{
 		name: 'Cambio de Pantalla',
 		cost: 6000,
