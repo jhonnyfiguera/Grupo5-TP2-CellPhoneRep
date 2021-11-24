@@ -9,6 +9,8 @@ var reservationsRouter = require('./routes/reservations');
 var usersRouter = require('./routes/users');
 var cellPhoneRouter = require('./routes/cellPhones');
 var typeOfRepairsRouter = require('./routes/repairs');
+var officesRouter = require('./routes/offices');
+
 const cors = require('cors');
 
 var app = express();
@@ -29,7 +31,7 @@ app.use('/api/reservations', reservationsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/celltypes', cellPhoneRouter);
 app.use('/api/repairs', typeOfRepairsRouter);
-
+app.use('/api/offices', officesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
