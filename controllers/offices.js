@@ -2,7 +2,7 @@ require('dotenv').config();
 const offices = require('../data/offices');
 
 /**
- * Llama a la función getAllOffices de data/user
+ * Llama a la función getAllOffices de data/Offices
  * @returns All Offices
  */
 async function getAllOffices() {
@@ -10,7 +10,7 @@ async function getAllOffices() {
 }
 
 /**
- * Llama a la función getOfficeById de data/users
+ * Llama a la función getOfficeById de data/Offices
  * @param {id} id
  * @returns office
  */
