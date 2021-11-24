@@ -35,7 +35,7 @@ async function getAllReservationsUser(userId){
  * @returns reservation
  */
  async function addReservation(reservation) { 
-    const userBd = await users.getUserId(reservation.user._id);
+    const userBd = await users.getUserById(reservation.user._id);
 
     if (!userBd) {
       throw new Error(
@@ -46,11 +46,30 @@ async function getAllReservationsUser(userId){
     if (!reservation.phone || !reservation.itemsRepairs || !reservation.office || !reservation.date) {
       throw new Error("Faltan datos generar reserva.");
     }
-    
+
     !reservation.additionalComment ? (reservation.additionalComment = "") : reservation.additionalComment;
     reservation.state = 'Pendiente';
-    reservation.estimatedRepairCost = 0;
-    //reservation.estimatedRepairCost = reservation.phone.cost + reservation.itemsRepairs;
+
+    reservation.user._id =  ObjectId(userBd._id);
+    reservation.phone._id = ObjectId(reservation.phone._id);
+    reservation.office._id = ObjectId(reservation.office._id);
+
+    let { itemsRepairs } = reservation;
+    reservation.itemsRepairs = itemsRepairs.map( item => ({... item, _id: ObjectId(item._id)}));
+
+    const costReparation = itemsRepairs.reduce((total, item) =>
+    {
+      let { cost } = item;
+      return total + cost
+    }, 0);
+
+    const costPhone = () => {
+      let { cost } = reservation.phone; 
+      return cost;
+    }; 
+    
+    reservation.estimatedRepairCost = costPhone() + costReparation;
+    console.log("Precio total " + reservation.estimatedRepairCost);
     return reservations.addReservation(reservation);
   }
 
