@@ -1,7 +1,7 @@
 const { ObjectId } = require('bson');
 const connection = require('./connection');
 const DATABASE = 'grupo5-cellphone';
-const USERSDB = 'offices';
+const OFFICESDB = 'offices';
 
 /**
  * Consulta de todas las sucursales
@@ -11,7 +11,7 @@ async function getAllOffices() {
 	const connectiondb = await connection.getConnection();
 	const offices = await connectiondb
         .db(DATABASE)
-        .collection(USERSDB)
+        .collection(OFFICESDB)
         .find()
         .toArray();
 	return offices;
@@ -26,7 +26,7 @@ async function getAllOffices() {
 	const connectiondb = await connection.getConnection();
 	const office = await connectiondb
 		.db(DATABASE)
-		.collection(USERSDB)
+		.collection(OFFICESDB)
 		.findOne({ _id: new ObjectId(id) });
 	return office;
 }
