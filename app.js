@@ -7,8 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var reservationsRouter = require('./routes/reservations');
 var usersRouter = require('./routes/users');
-var cellPhoneRouter = require('./routes/cellPhones');
 var typeOfRepairsRouter = require('./routes/repairs');
+var cellPhonesRouter = require('./routes/cellPhones');
 var officesRouter = require('./routes/offices');
 
 const cors = require('cors');
@@ -29,8 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/reservations', reservationsRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/celltypes', cellPhoneRouter);
 app.use('/api/repairs', typeOfRepairsRouter);
+app.use('/api/cellPhones', cellPhonesRouter);
 app.use('/api/offices', officesRouter);
 
 // catch 404 and forward to error handler

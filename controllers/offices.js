@@ -1,4 +1,3 @@
-require('dotenv').config();
 const offices = require('../data/offices');
 
 /**

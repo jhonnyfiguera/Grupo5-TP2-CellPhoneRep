@@ -47,7 +47,7 @@ router.get('/:id', auth, async (req, res) => {
  router.put('/activateAccount', async (req, res) => {
 	try {
     console.log('Activar cuenta de usuario.');
-		const result = await controller.activateUserAccount(req.body._id, req.body.activeAccount);
+		const result = await controller.activateUserAccount(req.body._id);
 		res.send(result);
 	} catch (error) {
 		res.status(401).send(error.message);
@@ -60,7 +60,7 @@ router.get('/:id', auth, async (req, res) => {
  router.put('/deactivateAccount', async (req, res) => {
 	try {
     console.log('Desactivar cuenta de usuario.');
-		const result = await controller.deactivateUserAccount(req.body._id, req.body.activeAccount);
+		const result = await controller.deactivateUserAccount(req.body._id);
 		res.send(result);
 	} catch (error) {
 		res.status(401).send(error.message);
@@ -75,7 +75,6 @@ router.get('/:id', auth, async (req, res) => {
 		console.log('Login de usuario.');
 		const user = await controller.findByCredential(req.body.email, req.body.password);
 		const token = await controller.generateAuthToken(user);
-
 		res.send({ user, token });
 	} catch (error) {
 		res.status(401).send(error.message);

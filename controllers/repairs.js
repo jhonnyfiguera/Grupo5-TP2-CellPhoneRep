@@ -8,8 +8,7 @@ const repairs = require('../data/repairs');
     return repairs.getTypeOfRepairs();
   }
 
-
-    /**
+/**
  * Llama a la función getTypeOfRepairById de data/typeOfRepairs
  * @param {id} id
  * @returns Tipo de reparacion
@@ -22,5 +21,4 @@ async function getTypeOfRepairById(id) {
 	return repair;
 }
 
-
-  module.exports = {getTypeOfRepairs, getTypeOfRepairById};
+module.exports = {getTypeOfRepairs, getTypeOfRepairById};

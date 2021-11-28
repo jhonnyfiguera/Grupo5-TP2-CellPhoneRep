@@ -1,35 +1,34 @@
+const { ObjectId } = require('bson');
 const connection = require("./connection");
 const DATABASE = "grupo5-cellphone";
-const PHONEDB = "cellPhones";
+const CELLPHONESDB = "cellPhones";
 
 /**
- * Busqueda Tipos de celular
-
- * @returns cellTypes
+ * Busqueda los celulares
+ * @returns typeOfRepairs
  */
- async function getCellTypes(){
+ async function getCellPhones(){
     const connectiondb = await connection.getConnection();
-    const cellTypes = await connectiondb
+    const cellPhones = await connectiondb
                         .db(DATABASE)
-                        .collection(PHONEDB)
+                        .collection(CELLPHONESDB)
                         .find()
-                        .toArray();
-                          
-    return cellTypes;
+                        .toArray();               
+    return cellPhones;
 }
 
 /**
- * Consulta de tipo de celular por id
+ * Consulta de celular por id
  * @param {id} id
- * @returns tipo de celular
+ * @returns celular
  */
- async function getCellTypeById(id) {
+ async function getCellPhonesById(id) {
 	const connectiondb = await connection.getConnection();
-	const repair = await connectiondb
+	const cellphone = await connectiondb
 		.db(DATABASE)
-		.collection(PHONEDB)
+		.collection(CELLPHONESDB)
 		.findOne({ _id: new ObjectId(id) });
-	return repair;
+	return cellphone;
 }
 
-module.exports = {getCellTypes, getCellTypeById};
+module.exports = {getCellPhones, getCellPhonesById};
