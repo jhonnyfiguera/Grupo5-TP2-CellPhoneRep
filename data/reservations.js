@@ -2,8 +2,6 @@ const { ObjectId } = require('bson');
 const connection = require('./connection');
 const DATABASE = 'grupo5-cellphone';
 const RESERVATIONSDB = 'reservations';
-const bycrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 /**
  * Busqueda de reserva por id
@@ -29,7 +27,7 @@ async function getReservationId(id){
     const reservations = await connectiondb
                         .db(DATABASE)
                         .collection(RESERVATIONSDB)
-                        .find({ 'user._id': userId })
+                        .find({ 'user._id': new ObjectId(userId) })
                         .toArray();    
     return reservations;
 }

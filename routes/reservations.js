@@ -1,4 +1,3 @@
-const { ObjectId } = require("bson");
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/reservations");
@@ -33,7 +32,7 @@ router.get("/user/:userId", auth, async (req, res) => {
  */
 router.post("/add", async (req, res) => {
   try {
-    console.log("Alta de reserva.");
+    console.log("Alta de reserva. " + req.body.office._id);
     const result = await controller.addReservation(req.body);
     res.send(result);
   } catch (error) {
@@ -48,7 +47,6 @@ router.post("/add", async (req, res) => {
   try {
     console.log("Cancelación de reserva.");
     const result = await controller.cancelReservation(req.body._id);
-   
     res.send(result);
   } catch (error) {
     res.status(401).send(error.message);

@@ -2,7 +2,6 @@ const { ObjectId } = require('bson');
 const connection = require('./connection');
 const DATABASE = 'grupo5-cellphone';
 const USERSDB = 'users';
-const bcrypt = require('bcryptjs'); // Probar que no se usa... 
 
 /**
  * Alta de usuario

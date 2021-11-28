@@ -1,10 +1,10 @@
+const { ObjectId } = require('bson');
 const connection = require("./connection");
 const DATABASE = "grupo5-cellphone";
 const REPAIRSDB = "repairs";
 
 /**
  * Busqueda Tipos de Reparaciones
-
  * @returns typeOfRepairs
  */
  async function getTypeOfRepairs(){
@@ -13,8 +13,7 @@ const REPAIRSDB = "repairs";
                         .db(DATABASE)
                         .collection(REPAIRSDB)
                         .find()
-                        .toArray();
-                          
+                        .toArray();                  
     return typeOfRepairs;
 }
 

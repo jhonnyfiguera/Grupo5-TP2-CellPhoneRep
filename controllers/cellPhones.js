@@ -1,26 +1,24 @@
-const phone = require('../data/cellPhones');
+const cellPhones = require('../data/cellPhones');
 
 /**
- * Llama a la función getCellTypes de data/phone
- * @returns all cellTypes
+ * Llama a la función getCellPhones de data
+ * @returns all cellPhones
  */
- async function getCellTypes() {
-    return phone.getCellTypes;
+ async function getCellPhones() {
+    return cellPhones.getCellPhones();
   }
 
-
-  /**
- * Llama a la función getCellTypeById de data/cellPhone
+/**
+ * Llama a la función getCellPhonesById de data
  * @param {id} id
- * @returns Tipo de reparacion
+ * @returns celular
  */
-async function getCellTypeById(id) {
-	const phone = await phone.getCellTypeById(id);
-	if (!phone) {
-		throw new Error('Tipo de Celular no encontrado.');
+async function getCellPhonesById(id) {
+	const cellPhone = await cellPhones.getCellPhonesById(id);
+	if (!cellPhone) {
+		throw new Error('Celular no encontrado.');
 	}
-	return phone;
+	return cellPhone;
 }
 
-
-  module.exports = {getCellTypes, getCellTypeById};
+module.exports = {getCellPhones, getCellPhonesById};

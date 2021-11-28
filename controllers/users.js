@@ -87,43 +87,33 @@ async function getUserById(id) {
 /**
  * Actualización de cuenta de usuario
  * @param {id} id 
- * @param {cuenta} account 
  * @returns Resultado de activar cuenta de usuario
  */
-async function activateUserAccount(id, account) {
-  const userBd = await getUserById(id);
-
-  if (account === undefined || account ===false) {
-		throw new Error('No se procesar la solicitud.');
-	}
+async function activateUserAccount(id) {
+  const userDb = await getUserById(id);
   
-  if (userBd.activeAccount === true && account === true) {
+  if (userDb.activeAccount) {
 		throw new Error('La cuenta ya se encuentra activa.');
 	}
   
-  userBd.activeAccount = account;
-	return users.updateAccountUser(userBd);
+	userDb.activeAccount = true;
+	return users.updateAccountUser(userDb);
 }
 
 /**
  * Actualización de cuenta de usuario
  * @param {id} id 
- * @param {cuenta} account 
  * @returns Resultado de desactivar cuenta de usuario
  */
- async function deactivateUserAccount(id, account) {
-  const userBd = await getUserById(id);
+ async function deactivateUserAccount(id) {
+  const userDb = await getUserById(id);
 
-  if (account === undefined || account === true) {
-		throw new Error('No se procesar la solicitud.');
-	}
-
-  if (userBd.activeAccount === false && account === false) {
+  if (!userDb.activeAccount) {
 		throw new Error('La cuenta ya se encuentra inactiva.');
 	}
 
-  userBd.activeAccount = account;
-	return users.updateAccountUser(userBd);
+	userDb.activeAccount = false;
+	return users.updateAccountUser(userDb);
 }
 
 /**
@@ -136,12 +126,10 @@ async function activateUserAccount(id, account) {
 	const user = await users.getUserByEmail(mail);
 	if (!user) {
 		throw new Error('Email invalido o cuenta se encuentra inactiva.');
-		//throw new Error('Credenciales no validas.');
 	}
 	const isMatch = await bcrypt.compare(pass, user.password);
 	if (!isMatch) {
 		throw new Error('Contraseña incorrecta.');
-		//throw new Error('Credenciales no validas');
 	}
 	return user;
 }
