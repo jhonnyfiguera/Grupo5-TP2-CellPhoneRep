@@ -51,16 +51,22 @@ async function addReservation(reservation) {
 
   const userDb = await users.getUserById(reservation.user._id);
   const officeDb = await offices.getOfficeById(reservation.office._id);
-  const cellPhonesDb = await cellPhones.getCellPhonesById(reservation.phone._id);
+  const cellPhonesDb = await cellPhones.getCellPhonesById(
+    reservation.phone._id
+  );
 
-  const itemsRepairsId = reservation.itemsRepairs.map((item) => ({ _id: item._id }));
+  const itemsRepairsId = reservation.itemsRepairs.map((item) => ({
+    _id: item._id,
+  }));
   let cont = 0;
   while (itemsRepairsId.length > cont) {
     await repairs.getTypeOfRepairById(itemsRepairsId[cont]._id);
     cont++;
   }
-  
-  !reservation.additionalComment ? (reservation.additionalComment = "") : reservation.additionalComment;
+
+  !reservation.additionalComment
+    ? (reservation.additionalComment = "")
+    : reservation.additionalComment;
   reservation.state = "Pendiente";
   reservation.user._id = userDb._id;
   reservation.phone._id = cellPhonesDb._id;
@@ -76,7 +82,7 @@ async function addReservation(reservation) {
     return total + cost;
   }, 0);
   reservation.estimatedRepairCost = cellPhonesDb.cost + costReparation;
-  
+
   return reservations.addReservation(reservation);
 }
 
@@ -97,9 +103,25 @@ async function cancelReservation(id) {
   return reservations.cancelReservation(reservation);
 }
 
+/**
+ * Delete de reserva
+ * @param {id} id 
+ * @returns id de reversa a Eliminar
+ */
+async function deleteReservation(id) {
+  const reservation = await getReservationId(id);
+
+  if (reservation.state !== "Pendiente" || !reservation) {
+    throw new Error("La reserva no se puede eliminar");
+  }
+
+  return reservations.deleteReservation(id);
+}
+
 module.exports = {
   getReservationId,
   getAllReservationsUser,
   addReservation,
   cancelReservation,
+  deleteReservation,
 };
