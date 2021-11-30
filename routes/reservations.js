@@ -53,4 +53,17 @@ router.post("/add", async (req, res) => {
   }
 });
 
+/**
+ * Delete de reserva
+ */
+ router.put("/deleteReservation/", async (req, res) => {
+  try {
+    console.log("Delete de reserva.");
+    const result = await controller.deleteReservation(req.body._id);
+    res.send(result);
+  } catch (error) {
+    res.status(401).send(error.message);
+  }
+});
+
 module.exports = router;

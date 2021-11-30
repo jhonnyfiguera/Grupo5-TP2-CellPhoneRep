@@ -64,4 +64,18 @@ async function getReservationId(id){
   return result;
 }
 
-module.exports = {getReservationId, getAllReservationsUser, addReservation, cancelReservation};
+/**
+ * Delete reserva
+ * @param {id} id
+ * @returns resultado de eliminar reserva
+ */
+ async function deleteReservation(id) {
+  const connectiondb = await connection.getConnection();
+  const result = connectiondb
+              .db(DATABASE)
+              .collection(RESERVATIONSDB)
+              .deleteOne({ _id: new ObjectId(id) });
+  return result;
+}
+
+module.exports = {getReservationId, getAllReservationsUser, addReservation, cancelReservation, deleteReservation};
