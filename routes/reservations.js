@@ -32,7 +32,7 @@ router.get("/user/:userId", auth, async (req, res) => {
  */
 router.post("/add", async (req, res) => {
   try {
-    console.log("Alta de reserva. " + req.body.office._id);
+    console.log("Alta de reserva. ");
     const result = await controller.addReservation(req.body);
     res.send(result);
   } catch (error) {

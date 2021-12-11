@@ -140,7 +140,7 @@ async function activateUserAccount(id) {
  * @returns Token activo por 2hrs
  */
 async function generateAuthToken(user) {
-	const token = jwt.sign({ _id: user._id }, process.env.SECRET, {expiresIn: '2h'});
+	const token = jwt.sign({ _id: user._id }, process.env.SECRET, {expiresIn: '4h'});
 	return token;
 }
 
