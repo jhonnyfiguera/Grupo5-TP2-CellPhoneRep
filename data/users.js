@@ -4,25 +4,27 @@ const DATABASE = 'grupo5-cellphone';
 const USERSDB = 'users';
 
 /**
+ * ------------------------------------------
  * Alta de usuario
  * @param {user} user
  * @returns Resultado de alta de usuario
  */
- async function addUser(user) {
+async function addUser(user) {
 	const connectiondb = await connection.getConnection();
 	const result = connectiondb
-    .db(DATABASE)
-    .collection(USERSDB)
-    .insertOne(user);
+		.db(DATABASE)
+		.collection(USERSDB)
+		.insertOne(user);
 	return result;
 }
 
 /**
+ * ------------------------------------------
  * Consulta de usuario por id
  * @param {id} id
  * @returns User
  */
- async function getUserById(id) {
+async function getUserById(id) {
 	const connectiondb = await connection.getConnection();
 	const user = await connectiondb
 		.db(DATABASE)
@@ -32,11 +34,12 @@ const USERSDB = 'users';
 }
 
 /**
+ * ------------------------------------------
  * Consulta de usuario por email
  * @param {string} mail
  * @returns User
  */
- async function getUserByEmail(mail) {
+async function getUserByEmail(mail) {
 	const connectiondb = await connection.getConnection();
 	const user = await connectiondb
 		.db(DATABASE)
@@ -46,11 +49,12 @@ const USERSDB = 'users';
 }
 
 /**
+ * ------------------------------------------
  * Actualización de datos de usuario
  * @param {user} user
  * @returns Resultado de actualizar datos de usuario
  */
- async function updateUser(user) {
+async function updateUser(user) {
 	const connectiondb = await connection.getConnection();
 	const result = connectiondb
 		.db(DATABASE)
@@ -68,6 +72,7 @@ const USERSDB = 'users';
 }
 
 /**
+ * ------------------------------------------
  * Actualización de cuenta de usuario
  * @param {user} user
  * @returns Resultado de activar o desactivar cuenta de usuario
@@ -89,25 +94,25 @@ async function updateAccountUser(user) {
 }
 
 /**
- * ------------------------------
+ * ------------------------------------------
  * Consulta de todos los usuarios
  * @returns All Users
  */
 async function getAllUsers() {
 	const connectiondb = await connection.getConnection();
 	const users = await connectiondb
-    .db(DATABASE)
-    .collection(USERSDB)
-    .find()
-    .toArray();
+		.db(DATABASE)
+		.collection(USERSDB)
+		.find()
+		.toArray();
 	return users;
 }
 
 module.exports = {
-  addUser,
-  getUserById,
-  getUserByEmail,
-  updateUser,
-  updateAccountUser,
+	addUser,
+	getUserById,
+	getUserByEmail,
+	updateUser,
+	updateAccountUser,
 	getAllUsers,
 };

@@ -3,7 +3,8 @@ const router = express.Router();
 const controller = require('../controllers/users');
 const auth = require('../middleware/authentication');
 
-/**
+/*
+ * ----------------------------------------------
  * Alta de usuario
  */
 router.post('/add', async (req, res) => {
@@ -17,6 +18,7 @@ router.post('/add', async (req, res) => {
 });
 
 /*
+ * ----------------------------------------------
  * Un usuario por id
  */
 router.get('/:id', auth, async (req, res) => {
@@ -29,9 +31,10 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 /**
+ * ----------------------------------------------
  * Actualización de usuario
  */
- router.put('/update', async (req, res) => {
+router.put('/update', async (req, res) => {
 	try {
 		console.log('Actualizar datos de usuario.');
 		const result = await controller.updateUser(req.body);
@@ -42,11 +45,12 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 /**
+ * ----------------------------------------------
  * Activar cuenta de usuario // true
  */
- router.put('/activateAccount', async (req, res) => {
+router.put('/activateAccount', async (req, res) => {
 	try {
-    console.log('Activar cuenta de usuario.');
+		console.log('Activar cuenta de usuario.');
 		const result = await controller.activateUserAccount(req.body._id);
 		res.send(result);
 	} catch (error) {
@@ -55,11 +59,12 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 /**
+ * ----------------------------------------------
  * Desactivar cuenta de usuario  //false
  */
- router.put('/deactivateAccount', async (req, res) => {
+router.put('/deactivateAccount', async (req, res) => {
 	try {
-    console.log('Desactivar cuenta de usuario.');
+		console.log('Desactivar cuenta de usuario.');
 		const result = await controller.deactivateUserAccount(req.body._id);
 		res.send(result);
 	} catch (error) {
@@ -68,9 +73,10 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 /**
+ * ----------------------------------------------
  * Validación de credenciales
  */
- router.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
 	try {
 		console.log('Login de usuario.');
 		const user = await controller.findByCredential(req.body.email, req.body.password);
